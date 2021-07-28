@@ -51,4 +51,39 @@ python -m pip install awscli
 - Deleting the file from our terminal using `rm -rf test.txt`
 - This file can be restored from the s3 bucket using `sudo aws s3 cp s3://eng89dini/test.txt test.txt`
 - This file can be removed from the s3 bucket using `aws s3 rm s3://eng89dini/test.txt`
-- The s3 bucket can be deleted using ``aws s3 rb s3://eng89dini`
+- The s3 bucket can be deleted using `aws s3 rb s3://eng89dini`
+
+## Using boto3
+-Create a .py file in the remote host with the following code
+```
+import boto3
+
+s3 = boto3.client('s3')
+
+response = s3.list_buckets()
+
+# Output the bucket names
+print('Existing buckets:')
+for bucket in response['Buckets']:
+    print(f'  {bucket["Name"]}')
+```
+
+## Create a bucket
+
+```
+s3_client = boto3.client('s3')
+s3_client.create_bucket(Bucket=bucket_name)
+```
+## Upload a file
+```
+s3_client = boto3.client('s3')
+s3_client.upload_file(file_name, bucket, object_name)
+```
+
+## Download a file
+```
+s3 = boto3.client('s3')
+s3.download_file('BUCKET_NAME', 'OBJECT_NAME', 'FILE_NAME')
+```
+
+
